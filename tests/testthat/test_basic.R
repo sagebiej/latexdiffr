@@ -18,7 +18,7 @@ in_git <- function () {
 
 test_that("All file types compile", {
   files1 <- c("foo-prerendered.tex", "foo-rnw.Rnw", "foo-rmd.Rmd", "foo-qmd.qmd")
-  files2 <- c("bar-prerendered.tex", "bar-rnw.Rnw", "bar-rmd.Rmd")
+  files2 <- c("bar-prerendered.tex", "bar-rnw.Rnw", "bar-rmd.Rmd", "bar-qmd.qmd")
 
   skip_if_not_installed("rmarkdown")
   skip_if_not_installed("knitr")

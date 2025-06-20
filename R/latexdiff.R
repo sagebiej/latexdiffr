@@ -127,12 +127,48 @@ latexdiff <- function (
             rmarkdown::render(paths[idx], output_format = output_format, quiet = quiet)
           } else if (extensions[idx] == "qmd") {
             loadNamespace("quarto")
-            tex_file <- fs::path_ext_set(paths[idx], "tex")
-            tex_file <- fs::path_file(tex_file)
-            quarto::quarto_render(paths[idx], output_format = "latex",
-                                  output_file = tex_file, quiet = quiet)
+
+            tex_file <- fs::path_ext_set(paths[idx], "tex")   # full path
+            render_args = c("--keep-tex")
+
+            # 1. default
+            # remember user’s original argument
+            original_fmt <- output_format
+
+            # decide per‐file format without mutating output_format itself
+            fmt <- if (is.null(original_fmt) || identical(original_fmt, "")) {
+              "latex"
+            } else {
+              original_fmt
+            }
+
+
+            if (fmt == "latex") {
+              # lightweight: just write the .tex
+              quarto::quarto_render(
+                input          = paths[idx],
+                output_format  = "latex",
+                output_file    = tex_file,    # full path
+              #  render_args   = opts,
+                quiet          = quiet
+              )
+            } else {
+              # pdf-based format: run full pipeline, still keep .tex
+              quarto::quarto_render(
+                input          = paths[idx],
+                output_format  = fmt,
+                quiet          = quiet
+              )
+            }
+
+            if (!fs::file_exists(tex_file)) {
+              stop("Expected .tex file '", tex_file,
+                   "' not found. keep_tex = TRUE is set automatically.")
+            }
+
             tex_file
           }
+
   }
   on.exit({
     if (clean) file.remove(setdiff(tex_paths, paths))
