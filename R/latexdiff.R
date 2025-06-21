@@ -114,7 +114,8 @@ latexdiff <- function (
             knitr::knit(paths[idx], quiet = quiet)
           } else if (extensions[idx] == "rmd") {
             loadNamespace("rmarkdown")
-            if (missing(output_format)) {
+            fmtrmd <- output_format
+            if (is.null(fmtrmd) || identical(fmtrmd, "")) {
               def_out_fmt <- rmarkdown::default_output_format(paths[idx])
               if (def_out_fmt$name == "pdf_document") {
                 doc_opts <- def_out_fmt$options
@@ -122,9 +123,9 @@ latexdiff <- function (
               } else {
                 doc_opts <- list()
               }
-              output_format <- do.call(rmarkdown::latex_document, doc_opts)
+              fmtrmd <- do.call(rmarkdown::latex_document, doc_opts)
             }
-            rmarkdown::render(paths[idx], output_format = output_format, quiet = quiet)
+            rmarkdown::render(paths[idx], output_format = fmtrmd, quiet = quiet)
           } else if (extensions[idx] == "qmd") {
             loadNamespace("quarto")
 
