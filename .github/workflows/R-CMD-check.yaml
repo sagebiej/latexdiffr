@@ -5,7 +5,7 @@ on:
     branches: [fix-qmd-render, master]
   pull_request:
     branches: [fix-qmd-render, master]
- workflow_dispatch:    # ← allows manual dispatch
+
 name: R-CMD-check
 
 jobs:
