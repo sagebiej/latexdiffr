@@ -1,5 +1,5 @@
 
-# latexdiffr (development version)
+# latexdiffr 0.3.0
 
 * Use environment variable `LATEXDIFF_PATH` to set the path to the latexdiff
   perl script.
