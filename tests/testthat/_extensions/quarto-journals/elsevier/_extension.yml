@@ -15,5 +15,4 @@ contributes:
         - elsarticle.cls
       cite-method: natbib
       number-sections: true
-    html:
-      theme: styles/elsevier.scss
+
